@@ -25,8 +25,10 @@ function getToDoApi() {
   
     xhttp.onreadystatechange = function(){
         if (this.readyState == 4 && this.status == 200) {
-            var nameObject = JSON.parse(this.responseText);
+            var task = JSON.parse(this.responseText);
             console.log(nameObject);
+            let rand_bool = task.completed;
+            let is_completed = !rand_bool;
         }
     };
     xhttp.open("GET", url, true);
@@ -34,15 +36,16 @@ function getToDoApi() {
     xhttp.send();
 
     
+    
 
     task2Mod= xhttp2.open("GET",'https://cse204.work/todos'+id, true);
     const bool = new Boolean(task2Mod.completed);
     element.completed=!bool;
-    if task2Mod.completed==true{
+    if (task2Mod.completed==true){
         task2Mod.setAttribute("class", "completed-tasks")
     }
     else{
-        task2Mod.setAttribute("class", "incomplete-tasks"
+        task2Mod.setAttribute("class", "incomplete-tasks");
     }
     
 
@@ -81,7 +84,8 @@ function getToDoApi() {
         }
             for(i=0; i++; i<data.length()){
                 const newDiv = document.createElement("div");
-                newDiv.setAttribute("class","incomplete-tasks");
+                newDiv.setAttribute("class", "incomplete-tasks");
+                newDiv.setAttribute("id", data[i].id);
                 newDiv.appendChild(newTask);
                 newTask.innerHTML(data[i].text);
 
@@ -101,7 +105,7 @@ function getToDoApi() {
                 xbtn.type = "button";
                 xbtn.name="xBtn";
                 document.newDiv.appendChild(xbtn);
-                xbtn.addEventListener("click", deleteTask(data[i].id);
+                xbtn.addEventListener("click", deleteTask(data[i].id));
             }
         
 
