@@ -1,0 +1,19 @@
+.task-display{
+    float: left;
+    width:50%;
+    height:400px;
+    background-color: blue;
+}
+
+.task-entry{
+    float:left;
+    width: 50%
+}
+
+.tasks{
+    display: none;
+}
+
+.incomplete-tasks{
+
+}

@@ -1,0 +1,53 @@
+<head>
+    <title>08 ToDo App </title>
+    <!--font import-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap" rel="stylesheet">
+    
+    <!--viewport & stylesheet-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!--jquery import-->
+    <script> src ="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js" </script>
+    <script>
+        //task-button event listener
+        
+        function taskAdder(){
+            console.log("add task");
+            var task2Add= $("#task").value;
+            console.log("Adding task: " + task2Add);
+            $("#tasks").append(task2Add+"<br>");
+        }
+            
+        $(document).ready(function()
+        {
+            console.log("ready");
+
+            $("#task-button").click(taskAdder);
+        });
+            
+    </script>
+</head>
+<body>
+    <div class = "all">
+        <h2>To Do App</h2>
+        <div class ="task-box">
+            <div inputmode="task-display">
+                <div class="displayed-tasks">
+                    
+
+                </div>
+            </div>
+            <div class="task-entry">
+                <div class="form">
+                    <input class="task-entered" type="text"></input>
+                    <button class="task-button">Enter</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
