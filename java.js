@@ -1,125 +1,159 @@
+document.getElementById("task-button").addEventListener("click", getToDoApi, false);
+// console.log('mf button was clicked');
+
+const xhr = new XMLHttpRequest();
+       
+xhr.onreadystatechange = function(){
+    if (this.readyState == 4 && this.status == 200) {
+            var data = JSON.parse(xhr.responseText);
+            displayToDo(data);
+            
+    }
+    else if(this.readyState==4){
+        console.log(this.responseText);
+    }
+                
+                
+    document.getElementById("")
+    }
+            
+    xhr.open('GET','https://cse204.work/todos');
+    xhr.setRequestHeader("x-api-key","5d36de-9e56dc-d665ec-7e0e69-7f948d");
+    xhr.send();
+
+
+
+
+//DISPLAY THE GIVEN TASKS
+function displayToDo(data) {
+    for(i=0; i<data.length;i++){
+        var task_id = data[i].id;
+        const newDiv = document.createElement("div");
+        outer = document.getElementById("incomplete-tasks");
+                outer.appendChild(newDiv);
+                newDiv.setAttribute("class", "single_task");
+                newDiv.setAttribute("id", task_id);
+                newDiv.innerHTML=data[i].text;
+
+                
+                //create a check button for each task that we create
+                let cbtn = document.createElement("button");
+                newDiv.appendChild(cbtn);
+                cbtn.innerHTML="check";
+                cbtn.setAttribute("class", "complete-button");
+                cbtn.setAttribute("id", data[i].id);
+                cbtn.setAttribute("value","complete");
+                cbtn.type = "button";
+                cbtn.name="cBtn";
+                newDiv.appendChild(cbtn);
+                cbtn.addEventListener("click", modifyTask, false);
+
+                
+                //create a delete button for each task that we create
+                let xbtn = document.createElement("button");
+                newDiv.appendChild(xbtn);
+                xbtn.innerHTML="x";
+                xbtn.setAttribute("class", "delete-button");
+                xbtn.setAttribute("id", data[i].id);
+                xbtn.setAttribute("value","delete");
+                xbtn.type = "button";
+                xbtn.name="xBtn";
+                newDiv.appendChild(xbtn);
+                xbtn.addEventListener("click", deleteTask, false);
+
+                
+                
+            }
+        
+
+    
+  }
+
+
+
+
+//ADD THE INPUTTED TASK
 function getToDoApi() {
-    var data = document.getElementById("task").value;
-    event.preventDefault();
-    var url = 'https://cse204.work/todos'; 
+    var input = document.getElementById("task-entered").value;
+    var data={
+        text: input
+    }
+    document.getElementById("task-entered").value="";
+    console.log(input);
     var xhttp = new XMLHttpRequest();
   
   xhttp.onreadystatechange = function(){
       if (this.readyState == 4 && this.status == 200) {
           var nameObject = JSON.parse(this.responseText);
           console.log(nameObject);
-          displayToDo(nameObject.name);
+          displayToDo(nameObject.text);
+      }
+      else if (this.readyState==4){
+        console.log(this.responseText)
       }
   };
   
   xhttp.open("POST", 'https://cse204.work/todos', true);
   xhttp.setRequestHeader("x-api-key","5d36de-9e56dc-d665ec-7e0e69-7f948d");
+  xhttp.setRequestHeader("Content-type", "application/json");
   xhttp.send(JSON.stringify(data));
-
-    console.log("If you see this in the console, the getFakeNameFromApi() function was called.")
   }
 
-  function modifyTask(id){
-    var url = 'https://cse204.work/todos' + id; 
-    var xhttp = new XMLHttpRequest();
   
-    xhttp.onreadystatechange = function(){
+
+
+  //CHANGE FROM INC TO COMPLETE
+  function modifyTask(){
+    var id = this.id;
+    var url = "https://cse204.work/todos/" + id; 
+    console.log(id);
+    var xhttp3 = new XMLHttpRequest();
+    var data ={
+        completed:true
+    }
+    xhttp3.onreadystatechange = function(){
         if (this.readyState == 4 && this.status == 200) {
-            var task = JSON.parse(this.responseText);
-            console.log(nameObject);
-            let rand_bool = task.completed;
-            let is_completed = !rand_bool;
+            document.getElementById(id).style.color="lightgreen";
+            
         }
+        else if(this.readyState==4){
+            console.log(this.responseText);
+        }
+            
+            
+            document.getElementById("")
+        }
+
+        xhttp3.open("PUT", url, true);
+
+        xhttp3.setRequestHeader("Content-type", "application/json");
+        xhttp3.setRequestHeader("x-api-key","5d36de-9e56dc-d665ec-7e0e69-7f948d");
+        xhttp3.send(JSON.stringify(data));
     };
-    xhttp.open("GET", url, true);
-    xhttp.setRequestHeader("x-api-key","5d36de-9e56dc-d665ec-7e0e69-7f948d");
-    xhttp.send();
-
     
-    
-
-    task2Mod= xhttp2.open("GET",'https://cse204.work/todos'+id, true);
-    const bool = new Boolean(task2Mod.completed);
-    element.completed=!bool;
-    if (task2Mod.completed==true){
-        task2Mod.setAttribute("class", "completed-tasks")
-    }
-    else{
-        task2Mod.setAttribute("class", "incomplete-tasks");
-    }
-    
-
-  }
-  
-
   //This function deletes the task once the xbutton has been pressed
-  function deleteTask(id){
-    var url = 'https://cse204.work/todos' + id; 
+  function deleteTask(){
+    var id = this.id;
+    var url = 'https://cse204.work/todos/' + id; 
     var xhttp = new XMLHttpRequest();
+    console.log(id);
   
   xhttp.onreadystatechange = function(){
       if (this.readyState == 4 && this.status == 200) {
-          var nameObject = JSON.parse(this.responseText);
-          console.log(nameObject);
+          const element = document.getElementById(id);
+          element.replaceChildren();
+          element.remove();
       }
   };
   //Deletes task from API
   xhttp.open("DELETE", url, true);
   xhttp.setRequestHeader("x-api-key","5d36de-9e56dc-d665ec-7e0e69-7f948d");
+  xhttp.setRequestHeader("Content-type", "application/json");
   xhttp.send();
 
   //Now need to delete display info for task by deleting div
-  const element = document.getElementById(id);
-  element.empty();
-  element.remove();
+  
   }
-
-  function displayToDo(name) {
-    const getTasks =()=>{
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET','https://cse204.work/todos');
-        xhr.onload = () => {
-            const data = JSON.parse(xhr.response);
-            console.log(data)
-        }
-            for(i=0; i++; i<data.length()){
-                const newDiv = document.createElement("div");
-                newDiv.setAttribute("class", "incomplete-tasks");
-                newDiv.setAttribute("id", data[i].id);
-                newDiv.appendChild(newTask);
-                newTask.innerHTML(data[i].text);
-
-                
-                //create a check button for each task that we create
-                let cbtn = document.createElement("button");
-                cbtn.innerHTML="check";
-                cbtn.type = "button";
-                cbtn.name="cBtn";
-                document.newDiv.appendChild(cbtn);
-                cbtn.addEventListener("click", modifyTask(data[i].id));
-
-                
-                //create a delete button for each task that we create
-                let xbtn = document.createElement("button");
-                xbtn.innerHTML="x";
-                xbtn.type = "button";
-                xbtn.name="xBtn";
-                document.newDiv.appendChild(xbtn);
-                xbtn.addEventListener("click", deleteTask(data[i].id));
-            }
-        
-
-    // @TODO: Modify this function so that it displays the name variable in the #result div.
-    // Use DOM methods to take the `name` variable and set the innerHTML property of #result.
-    document.getElementById("result").innerHTML = name;
-    // Bootstrap provides a "d-none" class (it stands for "display: none") that's used to hide a div.
-    // Make sure you remove the Bootstrap "d-none" helper class so that the div is displayed. Try using .classList.remove() on your DOM element.
-    var element = document.getElementById("result");
-    element.classList.remove("d-none");
-    // document.getElementById("result").classList.remove();
-  }
-
-}
 
 
 

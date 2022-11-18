@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <title>08 ToDo App </title>
     <!--font import-->
@@ -13,41 +15,25 @@
 
     <!--jquery import-->
     <script> src ="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js" </script>
-    <script>
-        //task-button event listener
-        
-        function taskAdder(){
-            console.log("add task");
-            var task2Add= $("#task").value;
-            console.log("Adding task: " + task2Add);
-            $("#tasks").append(task2Add+"<br>");
-        }
-            
-        $(document).ready(function()
-        {
-            console.log("ready");
-
-            $("#task-button").click(taskAdder);
-        });
-            
-    </script>
+    
 </head>
 <body>
     <div class = "all">
         <h2>To Do App</h2>
         <div class ="task-box">
             <div inputmode="task-display">
-                <div class="displayed-tasks">
-                    
-
+                <div id="incomplete-tasks">
                 </div>
             </div>
             <div class="task-entry">
                 <div class="form">
-                    <input class="task-entered" type="text"></input>
-                    <button class="task-button">Enter</button>
+                    <input id="task-entered" type="text"></input>
+                    <input type="button" id="task-button" value="Submit">
                 </div>
             </div>
         </div>
     </div>
+    <script src="java.js"></script>
 </body>
+
+</html>
