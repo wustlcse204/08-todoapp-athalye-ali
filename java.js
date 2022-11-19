@@ -1,4 +1,5 @@
 document.getElementById("task-button").addEventListener("click", getToDoApi, false);
+
 // console.log('mf button was clicked');
 
 const xhr = new XMLHttpRequest();
@@ -26,6 +27,7 @@ xhr.onreadystatechange = function(){
 
 //DISPLAY THE GIVEN TASKS
 function displayToDo(data) {
+    
     for(i=0; i<data.length;i++){
         var task_id = data[i].id;
         const newDiv = document.createElement("div");
@@ -61,8 +63,7 @@ function displayToDo(data) {
                 newDiv.appendChild(xbtn);
                 xbtn.addEventListener("click", deleteTask, false);
 
-                
-                
+        
             }
         
 
@@ -74,6 +75,7 @@ function displayToDo(data) {
 
 //ADD THE INPUTTED TASK
 function getToDoApi() {
+    
     var input = document.getElementById("task-entered").value;
     var data={
         text: input
@@ -84,6 +86,7 @@ function getToDoApi() {
   
   xhttp.onreadystatechange = function(){
       if (this.readyState == 4 && this.status == 200) {
+            window.location.reload();
           var nameObject = JSON.parse(this.responseText);
           console.log(nameObject);
           displayToDo(nameObject.text);
@@ -97,6 +100,8 @@ function getToDoApi() {
   xhttp.setRequestHeader("x-api-key","5d36de-9e56dc-d665ec-7e0e69-7f948d");
   xhttp.setRequestHeader("Content-type", "application/json");
   xhttp.send(JSON.stringify(data));
+
+  
   }
 
   
